@@ -13,7 +13,22 @@ Description: Update configure file with new tests from configure.ac
  if test "X$PYTHON_VERSION" != X; then
    languages_available="$languages_available python($PYTHON_VERSION)"
    if test $with_python = yes; then
-@@ -12198,8 +12198,8 @@
+@@ -12183,12 +12183,13 @@
+   fi
+ 
+   if test "X$PYTHON_LIBEXT" = X; then
++    python_default_libext=`$PYTHON -c 'from distutils import sysconfig; print(sysconfig.get_config_var("SO"))'`
+ 
+ # Check whether --with-python-libext was given.
+ if test "${with_python_libext+set}" = set; then :
+   withval=$with_python_libext; with_python_libext="$withval"
+ else
+-  with_python_libext=".so"
++  with_python_libext=$python_default_libext
+ fi
+ 
+     if test "X$with_python_libext" != X; then
+@@ -12198,8 +12199,8 @@
  
    { $as_echo "$as_me:${as_lineno-$LINENO}: checking Python includes" >&5
  $as_echo_n "checking Python includes... " >&6; }
@@ -24,7 +39,7 @@ Description: Update configure file with new tests from configure.ac
  
    if test "X$PYTHON_INCLUDES" != X; then
      { $as_echo "$as_me:${as_lineno-$LINENO}: result: using user includes: $PYTHON_INCLUDES" >&5
-@@ -12228,7 +12228,7 @@
+@@ -12228,7 +12229,7 @@
      { $as_echo "$as_me:${as_lineno-$LINENO}: result: using user lib: $PYTHON_LIB" >&5
  $as_echo "using user lib: $PYTHON_LIB" >&6; }
    else
