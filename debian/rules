@@ -46,6 +46,7 @@ export PHP_CONFIG
 PYVERS= $(shell pyversions -r)
 # Default python
 PYDEF= $(shell pyversions -d)
+PY3DEF= $(shell py3versions -d)
 
 # Perl vendorarch gets dynamic with 5.20
 PERL_ARCHLIB := $(shell perl -MConfig -e 'print $$Config{vendorarch}')
@@ -97,6 +98,7 @@ clean1:
 
 	-cd python && $(MAKE) clean
 	-cd python && rm -f Redland_wrap.c Redland.py
+	-cd python && rm -rf __pycache__
 
 	-cd ruby && $(MAKE) clean
 	-cd ruby && rm -f redland_wrap.c
@@ -126,6 +128,18 @@ install: build
 	done
 	find $(CURDIR)/debian/python-librdf/usr -name "*.py[co]" -exec rm -f {} \;
 
+	cd python; \
+	for python in $(PY3VERS); do \
+	  pylib=$$($$python -c 'from distutils import sysconfig; print(sysconfig.get_python_lib())'); \
+	  pyext=$$($$python -c 'from distutils import sysconfig; print(sysconfig.get_config_var("EXT_SUFFIX"))'); \
+          PYTHON=$$(echo $$python | sed "s/$(PY3DEF)/python3/"); \
+	  PYTHON=$$PYTHON make install DESTDIR=$(CURDIR)/debian/python3-librdf pythondir=$$pylib PYTHON_INCLUDES=-I/usr/include/$$python; \
+	  mv $(CURDIR)/debian/python3-librdf/usr/lib/python3/dist-packages/Redland.so $(CURDIR)/debian/python3-librdf/usr/lib/python3/dist-packages/Redland$$pyext ; \
+	  $(MAKE) clean >/dev/null 2>&1; \
+	done
+	find $(CURDIR)/debian/python-librdf/usr -name "*.py[co]" -exec rm -f {} \;
+
+
 	cd ruby ; \
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/librdf-ruby
 
@@ -154,6 +168,7 @@ binary-arch: build install
 	dh_makeshlibs
 	dh_perl
 	dh_python2 -ppython-librdf
+	dh_python3 -ppython3-librdf
 	dh_installdeb
 	dh_shlibdeps
 	echo "php:Depends=phpapi-$(shell $(PHP_CONFIG) --phpapi)" >> \

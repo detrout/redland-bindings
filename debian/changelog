@@ -1,7 +1,7 @@
 redland-bindings (1.0.17.1+dfsg-1.1~det1) UNRELEASED; urgency=low
 
   * extend-diff-ignore files that are deleted by debian/rules clean
-  * build python 3 version
+  * Build python3-librdf package
 
  -- Diane Trout <diane@ghic.org>  Mon, 29 Jul 2013 16:27:48 -0700
 
