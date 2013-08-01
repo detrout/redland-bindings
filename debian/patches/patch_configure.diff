@@ -1,0 +1,35 @@
+Author: Diane Trout
+Description: Update configure file with new tests from configure.ac
+ Mostly this is added because I want to save the results of running
+ autoconf, but I don't want to add unnecessary changes to the python3_compat.patch
+--- a/configure
++++ b/configure
+@@ -12155,7 +12155,7 @@
+   with_python=yes
+ fi
+ 
+-PYTHON_VERSION=`$PYTHON -c 'import sys; print sys.version[:3]' 2>/dev/null`
++PYTHON_VERSION=`$PYTHON -c 'import sys; print(sys.version[:3])' 2>/dev/null`
+ if test "X$PYTHON_VERSION" != X; then
+   languages_available="$languages_available python($PYTHON_VERSION)"
+   if test $with_python = yes; then
+@@ -12198,8 +12198,8 @@
+ 
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking Python includes" >&5
+ $as_echo_n "checking Python includes... " >&6; }
+-  python_prefix=`$PYTHON -c 'import sys; print sys.prefix' 2>/dev/null`
+-  python_exec_prefix=`$PYTHON -c "import sys; print sys.exec_prefix"`
++  python_prefix=`$PYTHON -c 'import sys; print(sys.prefix)' 2>/dev/null`
++  python_exec_prefix=`$PYTHON -c "import sys; print(sys.exec_prefix)"`
+ 
+   if test "X$PYTHON_INCLUDES" != X; then
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: using user includes: $PYTHON_INCLUDES" >&5
+@@ -12228,7 +12228,7 @@
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: using user lib: $PYTHON_LIB" >&5
+ $as_echo "using user lib: $PYTHON_LIB" >&6; }
+   else
+-    PYTHON_LIB=`$PYTHON -c "import distutils.sysconfig; print distutils.sysconfig.get_python_lib($get_python_lib_args)"`
++    PYTHON_LIB=`$PYTHON -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib($get_python_lib_args))"`
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PYTHON_LIB" >&5
+ $as_echo "$PYTHON_LIB" >&6; }
+   fi
