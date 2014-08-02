@@ -1,4 +1,8 @@
-Patches pulled from upstream GIT at http://git.librdf.org/
+Patches pulled from upstream GIT at https://github.com/dajobe/rasqal
 
 See /usr/share/doc/dpatch/README.source.gz for how they are stored
 in dpatch form.
+
+Repacked to remove docs/rdoc/js/thickbox-compressed.js docs/rdoc/js/jquery.js
+
+ -- Dave Beckett <dajobe@debian.org>, Sun,  1 Jun 2014 17:44:10 -0700

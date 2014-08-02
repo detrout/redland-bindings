@@ -35,7 +35,7 @@ version := $(shell dpkg-parsechangelog | \
 
 PERL=perl
 export PERL
-RUBY=ruby1.8
+RUBY=ruby2.1
 export RUBY
 PHP=php5
 export PHP
@@ -44,10 +44,11 @@ export PHP_CONFIG
 
 # Python versions from constraints in X-Python-Version in debian/control
 PYVERS= $(shell pyversions -r)
-PY3VERS= $(shell py3versions -r)
-
 # Default python
 PYDEF= $(shell pyversions -d)
+
+# Perl vendorarch gets dynamic with 5.20
+PERL_ARCHLIB := $(shell perl -MConfig -e 'print $$Config{vendorarch}')
 
 configure: configure-stamp
 configure-stamp:
@@ -90,12 +91,12 @@ clean1:
 	[ ! -f Makefile ] || $(MAKE) distclean
 
 	-cd perl && $(MAKE) clean
-	-cd perl && rm -f MYMETA.yml CORE_wrap.c lib/RDF/Redland/CORE.pm
+	-cd perl && rm -f MYMETA.yml MYMETA.json CORE_wrap.c lib/RDF/Redland/CORE.pm
 
 	-cd php && rm -f php_redland.h redland_wrap.c
 
 	-cd python && $(MAKE) clean
-	-cd python && rm -f Redland_wrap.c
+	-cd python && rm -f Redland_wrap.c Redland.py
 
 	-cd ruby && $(MAKE) clean
 	-cd ruby && rm -f redland_wrap.c
@@ -108,16 +109,16 @@ clean1:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 	cd perl && $(MAKE) install
 # Move the pure perl into the right dir
 	mkdir -p $(CURDIR)/debian/librdf-perl/usr/share/perl5
-	mv $(CURDIR)/debian/librdf-perl/usr/lib/perl5/RDF $(CURDIR)/debian/librdf-perl/usr/share/perl5/RDF
+	mv $(CURDIR)/debian/librdf-perl$(PERL_ARCHLIB)/RDF $(CURDIR)/debian/librdf-perl/usr/share/perl5/RDF
 
 	cd python; \
-	for python in $(PYVERS) $(PY3VERS); do \
+	for python in $(PYVERS); do \
 	  pylib=$$($$python -c 'from distutils import sysconfig; print sysconfig.get_python_lib()'); \
           PYTHON=$$(echo $$python | sed "s/$(PYDEF)/python/"); \
 	  PYTHON=$$PYTHON make install DESTDIR=$(CURDIR)/debian/python-librdf pythondir=$$pylib PYTHON_INCLUDES=-I/usr/include/$$python; \

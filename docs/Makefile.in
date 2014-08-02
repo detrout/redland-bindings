@@ -180,7 +180,6 @@ RANLIB = @RANLIB@
 RAPTOR_LDFLAGS = @RAPTOR_LDFLAGS@
 RASQAL_LDFLAGS = @RASQAL_LDFLAGS@
 REDLAND_CONFIG = @REDLAND_CONFIG@
-REDLAND_HAVE_RAPTOR2_API = @REDLAND_HAVE_RAPTOR2_API@
 REDLAND_RUN = @REDLAND_RUN@
 REDLAND_SWIG = @REDLAND_SWIG@
 REDLAND_VERSION = @REDLAND_VERSION@
@@ -287,7 +286,9 @@ $(RUBY_HTML_CLASS_FILES) \
 rdoc/index.html
 
 RUBY_EXTRA_RDOC_FILES = \
-rdoc/rdoc.css rdoc/rdoc-style.css
+rdoc/rdoc.css rdoc/rdoc-style.css \
+rdoc/js/darkfish.js rdoc/js/jquery.js rdoc/js/navigation.js rdoc/js/searcher.js \
+rdoc/js/search_index.js rdoc/js/search.js
 
 CLEANFILES = README
 MAINTAINERCLEANFILES = pod pydoc rdoc-dirs-stamp
@@ -519,7 +520,7 @@ rdoc: $(RUBY_HTML_RDOC_FILES) $(RUBY_EXTRA_RDOC_FILES)
 
 # RUBY
 @MAINTAINER_MODE_TRUE@$(RUBY_HTML_RDOC_FILES): rdoc/%.html: $(srcdir)/fix-rdoc-xhtml rdoc-dirs-stamp
-@MAINTAINER_MODE_TRUE@	-tidy -asxml -wrap 1000 $(srcdir)/../ruby/$@ 2>/dev/null | $(PERL) $(srcdir)/fix-rdoc-xhtml $@
+@MAINTAINER_MODE_TRUE@	-tidy --new-blocklevel-tags nav,section,footer -asxml -wrap 1000 $(srcdir)/../ruby/$@ 2>/dev/null | $(PERL) $(srcdir)/fix-rdoc-xhtml $@
 
 @MAINTAINER_MODE_TRUE@$(RUBY_EXTRA_RDOC_FILES): rdoc-dirs-stamp
 @MAINTAINER_MODE_TRUE@	@for file in $(RUBY_EXTRA_RDOC_FILES); do \
@@ -533,7 +534,7 @@ rdoc: $(RUBY_HTML_RDOC_FILES) $(RUBY_EXTRA_RDOC_FILES)
 @MAINTAINER_MODE_TRUE@	done
 
 @MAINTAINER_MODE_TRUE@rdoc-dirs-stamp: $(srcdir)/../ruby/rdoc-stamp
-@MAINTAINER_MODE_TRUE@	mkdir -p rdoc rdoc/Redland rdoc/rdf rdoc/rdf/redland rdoc/rdf/redland/schemas && touch $@
+@MAINTAINER_MODE_TRUE@	mkdir -p rdoc rdoc/js rdoc/Redland rdoc/rdf rdoc/rdf/redland rdoc/rdf/redland/schemas && touch $@
 
 @MAINTAINER_MODE_TRUE@$(srcdir)/../ruby/rdoc-stamp:
 @MAINTAINER_MODE_TRUE@	cd $(srcdir)/../ruby && $(MAKE) docs

@@ -80,6 +80,7 @@ automake_min_vers=011102
 aclocal_min_vers=$automake_min_vers
 autoconf_min_vers=026200
 autoheader_min_vers=$autoconf_min_vers
+# libtool 2.2 required for LT_INIT language fix
 libtoolize_min_vers=020200
 gtkdocize_min_vers=010300
 swig_min_vers=010324
@@ -362,14 +363,16 @@ do
 	fi
       fi
 
-      if test ! -f NEWS; then
-        echo "$program: Creating empty NEWS file to allow configure to work"
-        $DRYRUN touch -t 200001010000 NEWS
-      fi
+      for docs in NEWS README; do
+	if test ! -f $docs; then
+	  echo "$program: Creating empty $docs file to allow configure to work"
+	  $DRYRUN touch -t 200001010000 $docs
+	fi
+      done
 
       echo "$program: Running $aclocal $aclocal_args"
       $DRYRUN $aclocal $aclocal_args
-      if grep "^AM_CONFIG_HEADER" configure.ac >/dev/null; then
+      if grep "^A[CM]_CONFIG_HEADER" configure.ac >/dev/null; then
 	echo "$program: Running $autoheader"
 	$DRYRUN $autoheader
         status=$?

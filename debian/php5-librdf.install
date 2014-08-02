@@ -1,1 +1,1 @@
-debian/redland.ini etc/php5/conf.d/
+debian/redland.ini etc/php5/mods-available
