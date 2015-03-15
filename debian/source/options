@@ -1,7 +1,7 @@
-extend-diff-ignore=perl-CORE_wrap.c
+extend-diff-ignore=perl/CORE_wrap.c
 extend-diff-ignore=perl/lib/RDF/Redland/CORE.pm
 extend-diff-ignore=php/php_redland.h
 extend-diff-ignore=php/redland_wrap.c
+extend-diff-ignore=python/Redland.py
 extend-diff-ignore=python/Redland_wrap.c
 extend-diff-ignore=ruby/redland_wrap.c
-extend-diff-ignore=perl/CORE_wrap.c
