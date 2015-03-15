@@ -44,6 +44,7 @@ export PHP_CONFIG
 
 # Python versions from constraints in X-Python-Version in debian/control
 PYVERS= $(shell pyversions -r)
+PY3VERS= $(shell py3versions -r)
 # Default python
 PYDEF= $(shell pyversions -d)
 PY3DEF= $(shell py3versions -d)
