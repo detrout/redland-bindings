@@ -22,11 +22,11 @@ Architecture: any
 Section: python
 Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends}
 Provides: ${python:Provides}
-Description: Python language bindings for the Redland RDF library
+Description: Python 2 language bindings for the Redland RDF library
  This package contains the files needed to use the Redland Resource
  Description Framework (RDF) library in Python programs.
  .
- This contains the python 2 version.
+ This contains the Python 2 version.
 Homepage: http://librdf.org/docs/python.html
 
 Package: python3-librdf
@@ -34,11 +34,11 @@ Architecture: any
 Section: python
 Depends: ${misc:Depends}, ${shlibs:Depends}, ${python:Depends}
 Provides: ${python:Provides}
-Description: Python language bindings for the Redland RDF library
+Description: Python 3 language bindings for the Redland RDF library
  This package contains the files needed to use the Redland Resource
  Description Framework (RDF) library in Python programs.
  .
- This contains the python 3 version.
+ This contains the Python 3 version.
 Homepage: http://librdf.org/docs/python.html
 
 Package: librdf-ruby
