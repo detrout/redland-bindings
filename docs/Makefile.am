@@ -57,7 +57,9 @@ $(RUBY_HTML_CLASS_FILES) \
 rdoc/index.html
 
 RUBY_EXTRA_RDOC_FILES= \
-rdoc/rdoc.css rdoc/rdoc-style.css
+rdoc/rdoc.css rdoc/rdoc-style.css \
+rdoc/js/darkfish.js rdoc/js/jquery.js rdoc/js/navigation.js rdoc/js/searcher.js \
+rdoc/js/search_index.js rdoc/js/search.js
 
 CLEANFILES=README
 
@@ -101,7 +103,7 @@ $(PYTHON_HTML_PYDOC_FILES): pydoc/%.html: $(srcdir)/../python/RDF.html $(srcdir)
 
 # RUBY
 $(RUBY_HTML_RDOC_FILES): rdoc/%.html: $(srcdir)/fix-rdoc-xhtml rdoc-dirs-stamp
-	-tidy -asxml -wrap 1000 $(srcdir)/../ruby/$@ 2>/dev/null | $(PERL) $(srcdir)/fix-rdoc-xhtml $@
+	-tidy --new-blocklevel-tags nav,section,footer -asxml -wrap 1000 $(srcdir)/../ruby/$@ 2>/dev/null | $(PERL) $(srcdir)/fix-rdoc-xhtml $@
 
 $(RUBY_EXTRA_RDOC_FILES): rdoc-dirs-stamp
 	@for file in $(RUBY_EXTRA_RDOC_FILES); do \
@@ -115,7 +117,7 @@ $(RUBY_EXTRA_RDOC_FILES): rdoc-dirs-stamp
 	done
 
 rdoc-dirs-stamp: $(srcdir)/../ruby/rdoc-stamp
-	mkdir -p rdoc rdoc/Redland rdoc/rdf rdoc/rdf/redland rdoc/rdf/redland/schemas && touch $@
+	mkdir -p rdoc rdoc/js rdoc/Redland rdoc/rdf rdoc/rdf/redland rdoc/rdf/redland/schemas && touch $@
 
 $(srcdir)/../ruby/rdoc-stamp:
 	cd $(srcdir)/../ruby && $(MAKE) docs

@@ -180,6 +180,10 @@ as&nbsp;follows:<br />
 <dt><a name="Iterator-__iter__" id="Iterator-__iter__"><strong>__iter__</strong></a>(self)</dt>
 </dl>
 <dl>
+<dt><a name="Iterator-__next__" id="Iterator-__next__"><strong>__next__</strong></a>(self)</dt>
+<dd><tt>Move&nbsp;to&nbsp;the&nbsp;next&nbsp;object&nbsp;on&nbsp;the&nbsp;<a href="#Iterator">Iterator</a></tt></dd>
+</dl>
+<dl>
 <dt><a name="Iterator-context" id="Iterator-context"><strong>context</strong></a>(self)</dt>
 <dd><tt>Return&nbsp;the&nbsp;context&nbsp;<a href="#Node">Node</a>&nbsp;of&nbsp;the&nbsp;current&nbsp;object&nbsp;on&nbsp;the&nbsp;<a href="#Iterator">Iterator</a></tt></dd>
 </dl>
@@ -195,8 +199,7 @@ as&nbsp;follows:<br />
 <dt><a name="Iterator-have_elements" id="Iterator-have_elements"><strong>have_elements</strong></a>(self)</dt>
 </dl>
 <dl>
-<dt><a name="Iterator-next" id="Iterator-next"><strong>next</strong></a>(self)</dt>
-<dd><tt>Move&nbsp;to&nbsp;the&nbsp;next&nbsp;object&nbsp;on&nbsp;the&nbsp;<a href="#Iterator">Iterator</a></tt></dd>
+<dt><a name="Iterator-next" id="Iterator-next"><strong>next</strong></a> = <a href="#Iterator-__next__">__next__</a>(self)</dt>
 </dl>
 <hr />
 Data descriptors defined here:<br />
@@ -1104,6 +1107,18 @@ for&nbsp;statement&nbsp;in&nbsp;q2.<a href="#Query-execute">execute</a>().as_str
 <dl>
 <dt><a name="Query-execute" id="Query-execute"><strong>execute</strong></a>(self, model)</dt>
 </dl>
+<dl>
+<dt><a name="Query-get_limit" id="Query-get_limit"><strong>get_limit</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="Query-get_offset" id="Query-get_offset"><strong>get_offset</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="Query-set_limit" id="Query-set_limit"><strong>set_limit</strong></a>(self, limit)</dt>
+</dl>
+<dl>
+<dt><a name="Query-set_offset" id="Query-set_offset"><strong>set_offset</strong></a>(self, offset)</dt>
+</dl>
 <hr />
 Data descriptors defined here:<br />
 <dl>
@@ -1219,6 +1234,18 @@ Methods inherited from <a href="#Query">Query</a>:<br />
 <dl>
 <dt><a name="RDQLQuery-execute" id="RDQLQuery-execute"><strong>execute</strong></a>(self, model)</dt>
 </dl>
+<dl>
+<dt><a name="RDQLQuery-get_limit" id="RDQLQuery-get_limit"><strong>get_limit</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="RDQLQuery-get_offset" id="RDQLQuery-get_offset"><strong>get_offset</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="RDQLQuery-set_limit" id="RDQLQuery-set_limit"><strong>set_limit</strong></a>(self, limit)</dt>
+</dl>
+<dl>
+<dt><a name="RDQLQuery-set_offset" id="RDQLQuery-set_offset"><strong>set_offset</strong></a>(self, offset)</dt>
+</dl>
 <hr />
 Data descriptors inherited from <a href="#Query">Query</a>:<br />
 <dl>
@@ -1263,6 +1290,18 @@ Methods inherited from <a href="#Query">Query</a>:<br />
 </dl>
 <dl>
 <dt><a name="SPARQLQuery-execute" id="SPARQLQuery-execute"><strong>execute</strong></a>(self, model)</dt>
+</dl>
+<dl>
+<dt><a name="SPARQLQuery-get_limit" id="SPARQLQuery-get_limit"><strong>get_limit</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="SPARQLQuery-get_offset" id="SPARQLQuery-get_offset"><strong>get_offset</strong></a>(self)</dt>
+</dl>
+<dl>
+<dt><a name="SPARQLQuery-set_limit" id="SPARQLQuery-set_limit"><strong>set_limit</strong></a>(self, limit)</dt>
+</dl>
+<dl>
+<dt><a name="SPARQLQuery-set_offset" id="SPARQLQuery-set_offset"><strong>set_offset</strong></a>(self, offset)</dt>
 </dl>
 <hr />
 Data descriptors inherited from <a href="#Query">Query</a>:<br />
@@ -1591,6 +1630,10 @@ class&nbsp;explicitly.<br />
 <dt><a name="Stream-__iter__" id="Stream-__iter__"><strong>__iter__</strong></a>(self)</dt>
 </dl>
 <dl>
+<dt><a name="Stream-__next__" id="Stream-__next__"><strong>__next__</strong></a>(self)</dt>
+<dd><tt>Move&nbsp;to&nbsp;the&nbsp;next&nbsp;<a href="#Statement">Statement</a>&nbsp;on&nbsp;the&nbsp;<a href="#Stream">Stream</a></tt></dd>
+</dl>
+<dl>
 <dt><a name="Stream-context" id="Stream-context"><strong>context</strong></a>(self)</dt>
 <dd><tt>Return&nbsp;the&nbsp;context&nbsp;<a href="#Node">Node</a>&nbsp;of&nbsp;the&nbsp;current&nbsp;object&nbsp;on&nbsp;the&nbsp;<a href="#Stream">Stream</a></tt></dd>
 </dl>
@@ -1610,8 +1653,7 @@ e.g.&nbsp;&nbsp;<a href="#Model">Model</a>.find_statements_context()&nbsp;or&nbs
 <dd><tt>Return&nbsp;true&nbsp;if&nbsp;the&nbsp;stream&nbsp;is&nbsp;exhausted</tt></dd>
 </dl>
 <dl>
-<dt><a name="Stream-next" id="Stream-next"><strong>next</strong></a>(self)</dt>
-<dd><tt>Move&nbsp;to&nbsp;the&nbsp;next&nbsp;<a href="#Statement">Statement</a>&nbsp;on&nbsp;the&nbsp;<a href="#Stream">Stream</a></tt></dd>
+<dt><a name="Stream-next" id="Stream-next"><strong>next</strong></a> = <a href="#Stream-__next__">__next__</a>(self)</dt>
 </dl>
 <hr />
 Data descriptors defined here:<br />
@@ -1850,7 +1892,7 @@ if&nbsp;RDF.debug():&nbsp;#&nbsp;test&nbsp;for&nbsp;debug&nbsp;mode</tt></dd>
 </table>
 <hr />
 
-<p>(C) Copyright 2000-2012 <a href="http://www.dajobe.org/">Dave Beckett</a>, Copyright 2000-2005 <a href="http://www.bristol.ac.uk/">University of Bristol</a></p>
+<p>(C) Copyright 2000-2014 <a href="http://www.dajobe.org/">Dave Beckett</a>, Copyright 2000-2005 <a href="http://www.bristol.ac.uk/">University of Bristol</a></p>
 
 </body>
 </html>

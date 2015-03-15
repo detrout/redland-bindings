@@ -23,7 +23,7 @@ dnl
 dnl 
 
 
-AC_INIT([Redland librdf Language bindings],[1.0.16.1],[http://bugs.librdf.org/],[redland-bindings])
+AC_INIT([Redland librdf Language bindings],[1.0.17.1],[http://bugs.librdf.org/],[redland-bindings])
 AC_PREREQ([2.62])
 AC_CONFIG_SRCDIR(perl/example.pl)
 AC_REVISION($Revision$)dnl
@@ -82,10 +82,6 @@ AC_MSG_CHECKING(SWIG support)
 if test "X$SWIG" != "X"; then
   SWIG_VERSION=`$SWIG -version 2>&1 |sed -ne 's/^SWIG Version //p'`
   SWIG_VERSION_DEC=`echo $SWIG_VERSION | $AWK -F. '{printf("%d\n", 10000*$1 + 100*$2 + $3)};'`
-
- if test $SWIG_VERSION_DEC -ge 010326; then
-   SWIG_PYTHON_ARGS=-noproxy
- fi
 
   SWIG_MIN_VERSION_DEC=`echo $SWIG_MIN_VERSION | $AWK -F. '{printf("%d\n", 10000*$1 + 100*$2 + $3)};'`
   SWIG_REC_VERSION_DEC=`echo $SWIG_RECOMMENDED_VERSION | $AWK -F. '{printf("%d\n", 10000*$1 + 100*$2 + $3)};'`
@@ -264,7 +260,7 @@ fi
 
 dnl need to change quotes to allow square brackets
 changequote(<<, >>)dnl
-PYTHON_VERSION=`$PYTHON -c 'import sys; print sys.version[:3]' 2>/dev/null`
+PYTHON_VERSION=`$PYTHON -c 'import sys; print(sys.version[:3])' 2>/dev/null`
 changequote([, ])dnl
 if test "X$PYTHON_VERSION" != X; then
   languages_available="$languages_available python($PYTHON_VERSION)"
@@ -285,23 +281,22 @@ if test "X$PYTHON" != X; then
   fi
 
   if test "X$PYTHON_LIBEXT" = X; then
-    AC_ARG_WITH(python-libext, [  --with-python-libext(=EXT) Python shared library file extension (default .so)], with_python_libext="$withval", with_python_libext=".so")
+    python_default_libext=`$PYTHON -c 'from distutils import sysconfig; print(sysconfig.get_config_var("SO"))'`
+    AC_ARG_WITH(python-libext, [  --with-python-libext(=EXT) Python shared library file extension (default .so)], with_python_libext="$withval", with_python_libext=$python_default_libext)
     if test "X$with_python_libext" != X; then
       PYTHON_LIBEXT=$with_python_libext
     fi
   fi
 
   AC_MSG_CHECKING(Python includes)
-  python_prefix=`$PYTHON -c 'import sys; print sys.prefix' 2>/dev/null`
-  python_exec_prefix=`$PYTHON -c "import sys; print sys.exec_prefix"`
+  python_prefix=`$PYTHON -c 'import sys; print(sys.prefix)' 2>/dev/null`
+  python_exec_prefix=`$PYTHON -c "import sys; print(sys.exec_prefix)"`
 
   if test "X$PYTHON_INCLUDES" != X; then
     AC_MSG_RESULT(using user includes: $PYTHON_INCLUDES)
   else
-    PYTHON_INCLUDES="-I${python_prefix}/include/python${PYTHON_VERSION}"
-    if test "$python_prefix" != "$python_exec_prefix"; then
-      PYTHON_INCLUDES="$PYTHON_INCLUDES -I${python_exec_prefix}/include/python${PYTHON_VERSION}"
-    fi
+    python_includes=`$PYTHON -c 'from distutils import sysconfig; print(sysconfig.get_python_inc())'`
+    PYTHON_INCLUDES="-I$python_includes"
     AC_MSG_RESULT($PYTHON_INCLUDES)
   fi
 
@@ -311,7 +306,7 @@ if test "X$PYTHON" != X; then
   if test "X$PYTHON_LIB" != X; then
     AC_MSG_RESULT(using user lib: $PYTHON_LIB)
   else
-    PYTHON_LIB=`$PYTHON -c "import distutils.sysconfig; print distutils.sysconfig.get_python_lib($get_python_lib_args)"`
+    PYTHON_LIB=`$PYTHON -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib($get_python_lib_args))"`
     AC_MSG_RESULT($PYTHON_LIB)
   fi
 
@@ -364,7 +359,7 @@ if test "X$RUBY" != X; then
   RUBY_ARCHDIR=`$RUBY -rrbconfig -e "print RbConfig::CONFIG['archdir']"`
   ruby_install_dir_config=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['$ruby_install_dir_variable']"`
   ruby_header_dir_config=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['rubyhdrdir']"`
-  ruby_arch_config=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['arch']"`
+  ruby_arch_header_dir_config=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['rubyarchhdrdir']"`
   ruby_arch_install_dir_config=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['$ruby_arch_install_dir_variable']"`
   librubyarg_shared=`$RUBY -rrbconfig -e "puts RbConfig::CONFIG['LIBRUBYARG_SHARED']"`
   changequote([, ])dnl
@@ -389,14 +384,8 @@ if test "X$RUBY" != X; then
 
   AC_MSG_CHECKING(Ruby headers dir)
   if test "X$ruby_header_dir_config" != "Xnil" -a "X$ruby_header_dir_config" != "X"; then
-    RUBY_INCLUDES="$RUBY_INCLUDES -I$ruby_header_dir_config"
-    if test "X$ruby_arch_config" != "Xnil" -a "X$ruby_arch_config" != "X"; then
-      ruby_arch_hdrdir="$ruby_header_dir_config/$ruby_arch_config"
-      if test -d "$ruby_arch_hdrdir"; then
-        RUBY_INCLUDES="$RUBY_INCLUDES -I$ruby_arch_hdrdir"
-      fi
-    fi
-    AC_MSG_RESULT($RUBY_INCLUDES from RbConfig::CONFIG rubyhdrdir)
+    RUBY_INCLUDES="$RUBY_INCLUDES -I$ruby_header_dir_config -I$ruby_arch_header_dir_config"
+    AC_MSG_RESULT($RUBY_INCLUDES from RbConfig::CONFIG rubyhdrdir and rubyarchhdrdir)
   else
     if test -r "$RUBY_ARCHDIR/ruby.h"; then
       RUBY_INCLUDES="$RUBY_INCLUDES -I$RUBY_ARCHDIR"
@@ -566,20 +555,6 @@ AC_SUBST(REDLAND_RUN)
 REDLAND_SWIG=`$PKG_CONFIG redland --variable=swig`
 AC_SUBST(REDLAND_SWIG)
 
-AC_MSG_CHECKING(if redland was built with raptor2)
-REDLAND_HAVE_RAPTOR2_API=`$PKG_CONFIG redland --variable=have_raptor2_api 2>/dev/null`
-if test "X$REDLAND_HAVE_RAPTOR2_API" = X1; then
-  AC_DEFINE(REDLAND_HAVE_RAPTOR2_API, 1, [Redland uses Raptor2 API])
-  AC_MSG_RESULT(yes)
-else
-  AC_MSG_RESULT(no)
-  REDLAND_HAVE_RAPTOR2_API=0
-
-  AC_MSG_ERROR(Redland bindings requires a Redland built with Raptor 2 APIs.  see http://librdf.org/)
-fi
-AC_SUBST(REDLAND_HAVE_RAPTOR2_API)
-
-
 LIBRDF_CPPFLAGS="$LIBRDF_CPPFLAGS `$PKG_CONFIG redland --cflags`"
 LIBRDF_LDFLAGS="$LIBRDF_LDFLAGS `$PKG_CONFIG redland --libs`"
 
@@ -587,12 +562,6 @@ dnl needed for some bindings such as python to link raptor locator functions
 RAPTOR_LDFLAGS=`$PKG_CONFIG raptor2 --libs`
 RASQAL_LDFLAGS=`$PKG_CONFIG rasqal --libs`
 
-if test $REDLAND_VERSION_DEC -lt 10014; then
-  # These should have been added to redland.pc in 1.0.13
-
-  LIBRDF_CPPFLAGS="$LIBRDF_CPPFLAGS `$PKG_CONFIG rasqal --cflags`"
-  LIBRDF_LDFLAGS="$LIBRDF_LDFLAGS $RASQAL_LDFLAGS"
-fi
 
 
 dnl Checks for building sub-packages in sub directories
