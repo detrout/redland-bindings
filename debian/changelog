@@ -2,6 +2,7 @@ redland-bindings (1.0.17.1+dfsg-1.1~det1) UNRELEASED; urgency=low
 
   * extend-diff-ignore files that are deleted by debian/rules clean
   * Build python3-librdf package
+  * Remove patch_configure.diff, python3_comat.patch, applied upstream
 
  -- Diane Trout <diane@ghic.org>  Mon, 29 Jul 2013 16:27:48 -0700
 
