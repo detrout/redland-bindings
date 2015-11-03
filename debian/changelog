@@ -1,3 +1,11 @@
+redland-bindings (1.0.17.1+dfsg-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Replace explicit ruby2.1 dependency with just ruby.
+    (Closes: #803489)
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Tue, 03 Nov 2015 19:07:50 +0000
+
 redland-bindings (1.0.17.1+dfsg-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.

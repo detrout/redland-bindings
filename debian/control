@@ -2,7 +2,7 @@ Source: redland-bindings
 Section: devel
 Priority: optional
 Maintainer: Dave Beckett <dajobe@debian.org>
-Build-Depends: debhelper (>= 5.0.37.2), autotools-dev, libtool (>= 1.5), perl  (>= 5.8.1-2), python-all-dev (>= 2.6.6-3~), ruby2.1, ruby2.1-dev, librdf0-dev (>= 1.0.14), swig (>= 2.0.0), php5-cli, php5-dev
+Build-Depends: debhelper (>= 5.0.37.2), autotools-dev, libtool (>= 1.5), perl  (>= 5.8.1-2), python-all-dev (>= 2.6.6-3~), ruby, ruby-dev, librdf0-dev (>= 1.0.14), swig (>= 2.0.0), php5-cli, php5-dev
 X-Python-Version: >= 2.6
 Standards-Version: 3.9.5
 Homepage: http://librdf.org/
