@@ -35,7 +35,7 @@ version := $(shell dpkg-parsechangelog | \
 
 PERL=perl
 export PERL
-RUBY=ruby2.1
+RUBY=ruby
 export RUBY
 PHP=php5
 export PHP
