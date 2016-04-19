@@ -1,7 +1,7 @@
 # -*- RPM-SPEC -*-
 # Note that this is NOT a relocatable package
 %define name    redland-bindings
-%define version 1.0.16.1
+%define version 1.0.17.1
 %define release SNAP
 %define prefix  /usr
 

@@ -2961,16 +2961,16 @@ static swig_module_info swig_module = {swig_types, 19, 0, 0, 0, 0};
 #endif
 
 /*-----------------------------------------------
-              @(target):= Redland.so
+              @(target):= _Redland.so
   ------------------------------------------------*/
 #if PY_VERSION_HEX >= 0x03000000
-#  define SWIG_init    PyInit_Redland
+#  define SWIG_init    PyInit__Redland
 
 #else
-#  define SWIG_init    initRedland
+#  define SWIG_init    init_Redland
 
 #endif
-#define SWIG_name    "Redland"
+#define SWIG_name    "_Redland"
 
 #define SWIGVERSION 0x020007 
 #define SWIG_VERSION SWIGVERSION
